@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import Messages from './dbMessages.js';
 import Pusher from 'pusher';
 import cors from "cors";
+import path from 'path';
 import * as dotenv from 'dotenv' 
 dotenv.config()
 
