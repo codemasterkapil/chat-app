@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 import Messages from './dbMessages.js';
 import Pusher from 'pusher';
 import cors from "cors";
+import * as dotenv from 'dotenv' 
+dotenv.config()
 
 // app config
 const app=express();
@@ -56,7 +58,7 @@ app.use(cors());
 
 
 // Db config
-const connection_url='mongodb+srv://sangwan9:nQwaxT3ijUiFHKt@chatter.mbsdweb.mongodb.net/?retryWrites=true&w=majority'
+const connection_url=process.env.DATABASE_URL
 mongoose.set('strictQuery', false)
 mongoose.connect(connection_url, {
     useNewUrlParser:true,
@@ -97,6 +99,12 @@ app.post('/messages/new',(req,res)=>{
 
 })
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../whatsapp-mern/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../whatsapp-mern/build"));
+  });
+}
 
 //listen
 app.listen(port,()=>{

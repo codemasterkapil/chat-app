@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm install &&  cd .. && cd whatsapp-mern && npm install &&  npm run build && cd ..",
     "start": "node server.js"
   },
   "author": "kapil kumar sangwan",
