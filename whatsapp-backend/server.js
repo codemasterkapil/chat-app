@@ -7,6 +7,7 @@ import cors from "cors";
 import path from 'path';
 import * as dotenv from 'dotenv' 
 dotenv.config()
+const __dirname = path.resolve();
 
 // app config
 const app=express();
@@ -71,10 +72,15 @@ mongoose.connect(connection_url, {
 
 // ???
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../whatsapp-mern/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../whatsapp-mern/build"));
+  });
+}
+
+
 //api routes
-app.get('/',(req,res)=>{
-    res.status(200).send('hello kapil')
-})
 
 app.get('/messages/sync',(req,res)=>{
    
@@ -100,12 +106,6 @@ app.post('/messages/new',(req,res)=>{
 
 })
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../whatsapp-mern/build")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../whatsapp-mern/build"));
-  });
-}
 
 //listen
 app.listen(port,()=>{
